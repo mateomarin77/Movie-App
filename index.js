@@ -52,7 +52,7 @@ app.get("/movies", (req, res) => {
   res.json(topMovies);
 });
 
-app.get("/movies:title", (req, res) => {
+app.get("/movies/:title", (req, res) => {
   res.send("Successful GET request returning movie title");
 });
 
