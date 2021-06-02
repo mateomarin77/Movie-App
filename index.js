@@ -27,7 +27,7 @@ let auth = require("./auth")(app);
 
 let allowedOrigins = [
   "http://localhost:8080",
-  "https://git.heroku.com/myflixdbapp.git"
+  "https://git.heroku.com/mateo-myflix-app.git"
 ];
 app.use(
   cors({
