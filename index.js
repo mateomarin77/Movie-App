@@ -55,6 +55,9 @@ app.get("/documentation", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
 
+//logs to terminal
+app.use(morgan("common"));
+
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
