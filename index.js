@@ -1,48 +1,49 @@
 const express = require("express"),
-  morgan = require("morgan");
+  morgan = require("morgan"),
+  mongoose = require("mongoose"),
+  Models = require("./models.js"),
+  bodyParser = require("body-parser"),
+  passport = require("passport");
+cors = require("cors");
 
-const app = express();
-
-const cors = require("cors");
-app.use(cors());
+require("./passport");
 
 const { check, validationResult } = require("express-validator");
-
-const mongoose = require("mongoose");
-const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
-let userSchema = mongoose.Schema({
-  Username: { type: String, required: true },
-  Password: { type: String, required: true },
-  Email: { type: String, required: true },
-  Birthday: Date,
-  FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }]
-});
+const app = express();
 
-userSchema.statics.hashPassword = password => {
-  return bcrypt.hashSync(password, 10);
-};
-
-userSchema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(password, this.Password);
-};
-
-const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 
 let auth = require("./auth")(app);
 
-const passport = require("passport");
-require("./passport");
-
-app.use(morgan("common"));
+let allowedOrigins = [
+  "http://localhost:8080",
+  "https://git.heroku.com/myflixdbapp.git"
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If a specific origin isn't found on the list of allowed origins
+        let message =
+          "The CORS policy for this application does not allow access from the origin";
+        origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  })
+);
 
 // GET requests
 
