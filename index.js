@@ -4,19 +4,9 @@ const express = require("express"),
   Models = require("./models.js"),
   bodyParser = require("body-parser"),
   passport = require("passport");
-
 cors = require("cors");
 
 require("./passport");
-
-let auth = require("./auth")(app);
-
-const app = express();
-
-let allowedOrigins = [
-  "http://localhost:8080",
-  "https://git.heroku.com/mateo-myflix-app.git"
-];
 
 const { check, validationResult } = require("express-validator");
 
@@ -29,8 +19,16 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useUnifiedTopology: true
 });
 
+const app = express();
+
 app.use(bodyParser.json());
 
+let auth = require("./auth")(app);
+
+let allowedOrigins = [
+  "http://localhost:8080",
+  "https://git.heroku.com/mateo-myflix-app.git"
+];
 app.use(
   cors({
     origin: (origin, callback) => {
