@@ -259,7 +259,6 @@ app.delete("/users/:Username", (req, res) => {
       res.status(500).send("Error: " + err);
     });
 });
-
 // Error Handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
