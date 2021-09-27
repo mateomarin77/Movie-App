@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/mateomarin77/Movie-App.git"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -33,4 +36,6 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
   }
+
+
 }
